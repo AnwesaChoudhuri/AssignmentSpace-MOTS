@@ -1,0 +1,63 @@
+KittiMOTS
+TrackRCNN/car_person/
+Traceback (most recent call last):
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/eval.py", line 87, in evaluate
+    metric_names)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/_timing.py", line 16, in wrap
+    result = f(*args, **kw)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/eval.py", line 187, in eval_sequence
+    raw_data = dataset.get_raw_seq_data(tracker, seq)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/_timing.py", line 16, in wrap
+    result = f(*args, **kw)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/datasets/_base_dataset.py", line 87, in get_raw_seq_data
+    raw_gt_data = self._load_raw_file(tracker, seq, is_gt=True)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/datasets/kitti_mots.py", line 163, in _load_raw_file
+    from pycocotools import mask as mask_utils
+ModuleNotFoundError: No module named 'pycocotools'
+
+
+
+
+
+KittiMOTS
+StructMOTS_old/car_ablation/car_leaf_false
+Traceback (most recent call last):
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/eval.py", line 87, in evaluate
+    metric_names)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/_timing.py", line 16, in wrap
+    result = f(*args, **kw)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/eval.py", line 187, in eval_sequence
+    raw_data = dataset.get_raw_seq_data(tracker, seq)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/_timing.py", line 16, in wrap
+    result = f(*args, **kw)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/datasets/_base_dataset.py", line 87, in get_raw_seq_data
+    raw_gt_data = self._load_raw_file(tracker, seq, is_gt=True)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/datasets/kitti_mots.py", line 162, in _load_raw_file
+    from pycocotools import mask as mask_utils
+ModuleNotFoundError: No module named 'pycocotools'
+
+
+
+
+
+MotChallenge2DBox
+epoch5_interp
+Traceback (most recent call last):
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/eval.py", line 87, in evaluate
+    metric_names)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/_timing.py", line 16, in wrap
+    result = f(*args, **kw)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/eval.py", line 191, in eval_sequence
+    data = dataset.get_preprocessed_seq_data(raw_data, cls)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/_timing.py", line 16, in wrap
+    result = f(*args, **kw)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/datasets/mot_challenge_2d_box.py", line 299, in get_preprocessed_seq_data
+    self._check_unique_ids(raw_data)
+  File "/home/a-m/anwesac2/MOTS/Structured_MOTS/external/TrackEval/trackeval/datasets/_base_dataset.py", line 298, in _check_unique_ids
+    raise TrackEvalException(exc_str)
+trackeval.utils.TrackEvalException: Tracker predicts the same ID more than once in a single timestep (seq: MOT17-02-FRCNN, frame: 3, ids: 9)
+
+
+
+
+

@@ -1,2 +1,4 @@
 outputs/
 data/
+saved_models/
+detections/
