@@ -1,6 +1,6 @@
 # Assignment-Space-Based Multi-Object Tracking and Segmentation
 
-[Anwesa Choudhuri](https://www.linkedin.com/in/anwesachoudhuri/), [Girish Chowdhary](https://ece.illinois.edu/about/directory/faculty/girishc), [Alexander G. Schwing]
+[Anwesa Choudhuri](https://www.linkedin.com/in/anwesachoudhuri/), [Girish Chowdhary](https://ece.illinois.edu/about/directory/faculty/girishc), [Alexander G. Schwing](https://alexander-schwing.de/)
 
 [[`Publication`](https://openaccess.thecvf.com/content/ICCV2021/html/Choudhuri_Assignment-Space-Based_Multi-Object_Tracking_and_Segmentation_ICCV_2021_paper.html)] [[`Project`](https://anwesachoudhuri.github.io/Assignment-Space-based-MOTS/)] [[`BibTeX`](https://anwesachoudhuri.github.io/Assignment-Space-based-MOTS/bib.txt)]
 
