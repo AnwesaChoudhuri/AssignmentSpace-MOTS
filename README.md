@@ -18,6 +18,7 @@ To test for pedestrians:
 
 If you find the code or paper useful, please cite the following BibTeX entry.
 
+```BibTeX
 @InProceedings{Choudhuri_2021_ICCV,
     author    = {Choudhuri, Anwesa and Chowdhary, Girish and Schwing, Alexander G.},
     title     = {Assignment-Space-Based Multi-Object Tracking and Segmentation},
