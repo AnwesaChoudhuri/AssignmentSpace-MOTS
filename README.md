@@ -7,6 +7,30 @@
 
 ## Getting Started
 
+### Prerequisites:
+Pytorch 1.3.1, please set up an virtual env and run:
+```
+$ pip install -r requirements.txt
+```
+
+### Dataset:
+[KITTI Images](http://www.cvlibs.net/download.php?file=data_tracking_image_2.zip) + [Annotations](https://www.vision.rwth-aachen.de/media/resource_files/instances.zip)
+
+Structure should be the following:
+
+data
+    KITTI_MOTS
+        train
+            images
+            instances_txt
+        val
+            images
+            instances_txt
+        test
+            images
+
+## Testing
+
 To test for cars:
 ./scripts/test_kittimots.sh
 
