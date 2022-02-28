@@ -6,6 +6,9 @@
 
 <div align="center">
   <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/3d_2.png" width="50%" height="50%"/>
+  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/3d_1.png" width="50%" height="50%"/>
+  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/3d_3.png" width="50%" height="50%"/>
+  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/3d_4.png" width="50%" height="50%"/>
 </div><br/>
 
 
