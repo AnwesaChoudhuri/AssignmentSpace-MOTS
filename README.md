@@ -5,20 +5,18 @@
 [[`Publication`](https://openaccess.thecvf.com/content/ICCV2021/html/Choudhuri_Assignment-Space-Based_Multi-Object_Tracking_and_Segmentation_ICCV_2021_paper.html)] [[`Project`](https://anwesachoudhuri.github.io/Assignment-Space-based-MOTS/)] [[`BibTeX`](https://anwesachoudhuri.github.io/Assignment-Space-based-MOTS/bib.txt)]
 
 <div align="center">
-  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/3d_2.png" width="50%" height="50%"/>
-  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/3d_1.png" width="50%" height="50%"/>
-  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/3d_3.png" width="50%" height="50%"/>
-  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/3d_4.png" width="50%" height="50%"/>
+  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/3d_2.png" width="45%" height="45%"/>
+  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/3d_1.png" width="45%" height="45%"/>
+  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/car.png" width="45%" height="45%"/>
+  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/person.png" width="45%" height="45%"/>
 </div><br/>
-
-
 
 ## Getting Started
 
 ### Prerequisites:
-1. Virtual environment with Python3.6
-2. Pytorch 1.3.1
-3. Run the following:
+1. Virtual environment with Python 3.6
+2. Pytorch 1.3.1 
+3. Other requirements:
 ```
 $ pip install -r requirements.txt
 ```
