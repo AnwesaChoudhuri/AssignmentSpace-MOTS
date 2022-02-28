@@ -7,6 +7,8 @@
 <div align="center">
   <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/car.png" width="45%" height="45%"/>
   <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/person.png" width="45%" height="45%"/>
+  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/3d_1.png" width="45%" height="45%"/>
+  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/3d_2.png" width="45%" height="45%"/>
 </div><br/>
 
 ## Getting Started
