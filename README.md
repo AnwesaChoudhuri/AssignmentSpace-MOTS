@@ -5,7 +5,7 @@
 [[`Publication`](https://openaccess.thecvf.com/content/ICCV2021/html/Choudhuri_Assignment-Space-Based_Multi-Object_Tracking_and_Segmentation_ICCV_2021_paper.html)] [[`Project`](https://anwesachoudhuri.github.io/Assignment-Space-based-MOTS/)] [[`BibTeX`](https://anwesachoudhuri.github.io/Assignment-Space-based-MOTS/bib.txt)]
 
 <div align="center">
-  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/3d_2.png" width="100%" height="100%"/>
+  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/blob/main/3d_2.png" width="50%" height="50%"/>
 </div><br/>
 
 
