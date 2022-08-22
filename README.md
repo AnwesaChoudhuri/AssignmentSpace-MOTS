@@ -5,10 +5,10 @@
 [[`Publication`](https://openaccess.thecvf.com/content/ICCV2021/html/Choudhuri_Assignment-Space-Based_Multi-Object_Tracking_and_Segmentation_ICCV_2021_paper.html)] [[`Project`](https://anwesachoudhuri.github.io/Assignment-Space-based-MOTS/)] [[`BibTeX`](https://anwesachoudhuri.github.io/Assignment-Space-based-MOTS/bib.txt)]
 
 <div align="center">
-  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/imgs/car.png" width="45%" height="45%"/>
-  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/imgs/person.png" width="45%" height="45%"/>
-  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/imgs/3d_1.png" width="45%" height="45%"/>
-  <img src="https://github.com/AnwesaChoudhuri/Assignment-Space-based-MOTS/imgs/3d_2.png" width="45%" height="45%"/>
+  <img src="https://github.com/AnwesaChoudhuri/AssignmentSpace-MOTS/imgs/car.png" width="45%" height="45%"/>
+  <img src="https://github.com/AnwesaChoudhuri/AssignmentSpace-MOTS/imgs/person.png" width="45%" height="45%"/>
+  <img src="https://github.com/AnwesaChoudhuri/AssignmentSpace-MOTS/imgs/3d_1.png" width="45%" height="45%"/>
+  <img src="https://github.com/AnwesaChoudhuri/AssignmentSpace-MOTS/imgs/3d_2.png" width="45%" height="45%"/>
 </div><br/>
 
 ## Getting Started
