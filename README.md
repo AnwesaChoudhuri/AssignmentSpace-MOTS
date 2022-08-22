@@ -5,10 +5,10 @@
 [[`Publication`](https://openaccess.thecvf.com/content/ICCV2021/html/Choudhuri_Assignment-Space-Based_Multi-Object_Tracking_and_Segmentation_ICCV_2021_paper.html)] [[`Project`](https://anwesachoudhuri.github.io/Assignment-Space-based-MOTS/)] [[`BibTeX`](https://anwesachoudhuri.github.io/Assignment-Space-based-MOTS/bib.txt)]
 
 <div align="center">
-  <img src="./imgs/car.png" width="45%" height="45%"/>
-  <img src="./imgs/person.png" width="45%" height="45%"/>
-  <img src="./imgs/3d_1.png" width="45%" height="45%"/>
-  <img src="./imgs/3d_2.png" width="45%" height="45%"/>
+  <img src="./imgs/car.png" width="40%" height="40%"/>
+  <img src="./imgs/person.png" width="40%" height="40%"/>
+  <img src="./imgs/3d_1.png" width="40%" height="40%"/>
+  <img src="./imgs/3d_2.png" width="40%" height="40%"/>
 </div><br/>
 
 ## Getting Started
