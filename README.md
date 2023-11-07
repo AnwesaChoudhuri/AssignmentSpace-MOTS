@@ -26,16 +26,45 @@ $ pip install -r requirements.txt
 
 Structure should be the following:
 ```
-data
-│   KITTI_MOTS
-│   │    train
-│   │   │   images
-│   │   │    instances_txt
-│   │    val
-│   │   │    images
-│   │   │    instances_txt
-│   │    test
-│   │   │    images
+AssignmentSpace-MOTS
+│   data
+│   │   KITTI_MOTS
+│   │   │    train
+│   │   │   │   images
+│   │   │   │    instances_txt
+│   │   │    val
+│   │   │   │    images
+│   │   │   │    instances_txt
+│   │   │    test
+│   │   │   │    images
+```
+
+Note: Please use [RAFT](https://github.com/princeton-vl/RAFT) to run optical flow between consecutive and alternate files and save them as numpy files. Using optical flow is optional. 
+
+Structure should be the following:
+
+```
+AssignmentSpace-MOTS
+│   data
+│   │   KITTI_MOTS
+│   │   │    {train,val,test}
+│   │   │   │   RAFT_optical_flow
+│   │   │   │   │   flow_skip0
+│   │   │   │   │   flow_skip1
+```
+
+
+## Saved detections and models
+
+Detections and saved models are stored [here](https://drive.google.com/drive/folders/1C8E__yOR2D36oj-fq8cYRuteipcsXyTB?usp=share_link). Download them in the homedir.
+
+Structure should be the following:
+
+```
+AssignmentSpace-MOTS
+│   saved_models
+│   detections
+
 ```
 
 ## Testing
@@ -61,3 +90,8 @@ If you find the code or paper useful, please cite the following BibTeX entry.
     pages     = {13598-13607}
 }
 ```
+
+## Acknowledgement
+
+This work is supported in party by Agriculture and Food Research Initiative (AFRI) grant no. 2020-67021-32799/project accession no.1024178 from the USDA National Institute of Food and Agriculture: NSF/USDA National AI Institute: AIFARMS. We also thank the Illinois Center for Digital Agriculture for seed funding for this project. 
+
