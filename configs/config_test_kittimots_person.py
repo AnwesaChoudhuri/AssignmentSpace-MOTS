@@ -21,7 +21,7 @@ args = dict(
     lr_lambda=0.02, #learning rate of lambda
 
     outf='outputs/KITTI_MOTS/val/',
-    det_dir="detections/trackrcnn_detectron2_x152/KITTI_MOTS/val/",
+    det_dir="detections/trackrcnn/KITTI_MOTS/val/",
 
 
     second_order=True,
