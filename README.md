@@ -58,6 +58,8 @@ AssignmentSpace-MOTS
 
 Detections and saved models are stored [here](https://drive.google.com/drive/folders/1C8E__yOR2D36oj-fq8cYRuteipcsXyTB?usp=share_link). Download them in the homedir.
 
+Structure should be the following:
+
 ```
 AssignmentSpace-MOTS
 │   saved_models
