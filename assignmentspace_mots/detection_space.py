@@ -44,6 +44,7 @@ class DetectionSpace():
             self.n_optflow_skip0, self.n_optflow_skip1 = mots_helper.get_optical_flow_locations(self.args, self.seq, self.image_names)
 
         else:
+            print("Optical flow images are not being used. Please set use_optical_flow=True in the config file, to use optical flow.")
             self.n_optflow_skip0=[[] for i in range(0,len(self.image_names)-1)]
             self.n_optflow_skip1 = [[] for i in range(0, len(self.image_names) - 2)]
 
@@ -349,6 +350,7 @@ class DetectionSpace():
         return new_track_ids
 
 class miniDetectionSpace(DetectionSpace):
+    # adding online support
     def __init__(self, detections, t, frame_gap):
         super().__init__(detections.args, detections.seq, detections.reid_model, train=detections.args.train)
 

@@ -45,7 +45,6 @@ def train(itr):
         L_star = torch.tensor([0.]).cuda(args.track_device)
         L_GT = torch.tensor([0.]).cuda(args.track_device)
 
-                #print(predictions_mots)
         if np.array([len(i) for i in boxes]).sum()>0:
 
             assignments=AssignmentSpace(args, detections, lmbda, train=True, parallelize=True)
@@ -135,13 +134,17 @@ def train(itr):
 
 def test(lmbda):
 
+    if args.car==True:
+        caregory="car"
+    else:
+        category="person"
+
 
     os.makedirs(outf + "/test", exist_ok=True)
-    os.makedirs(outf + "/test/epoch" + str(args.epochs), exist_ok=True)
-    os.makedirs(outf + "/test/epoch" + str(args.epochs) + "/Instances_txt", exist_ok=True)
+    os.makedirs(outf + "/test/" +category+ "/Instances_txt", exist_ok=True)
     if not args.mots:
-        os.makedirs(outf + "/test/epoch" + str(args.epochs)+"_interp", exist_ok=True)
-        os.makedirs(outf + "/test/epoch" + str(args.epochs) + "_interp/Instances_txt", exist_ok=True)
+        os.makedirs(outf + "/test/interp", exist_ok=True)
+        os.makedirs(outf + "/test/interp/Instances_txt", exist_ok=True)
 
     tic = time.clock()
     if not args.use_given_detections:
@@ -161,10 +164,13 @@ def test(lmbda):
         # images: list of n images
         # gt_labels: labels corresponding to the images
 
-        print("detections...")
+        print("*** Creating Detection Space ***")
         detections=DetectionSpace(args, vid[0], reid_model)
+        print("Getting images...")
         detections.get_images(images)
+        print("Getting optical flow...")
         detections.get_optical_flow(image_names)
+        print("Getting detections...")
         detections.get_detections()
 
 
@@ -175,11 +181,13 @@ def test(lmbda):
 
 
         if np.array([len(i) for i in detections.boxes]).sum() > 0:
-
+            print("*** Creating Assignment Space ***")
             assignments=AssignmentSpace(args, detections, lmbda, train=False, parallelize=False)
+            print("Constructing the space...")
             assignments.get_assignment_space()
+            print("Best path...")
             assignments.get_best_path()
-
+            print("Get the tracks...")
             detections.get_tracks(assignments)
 
 
@@ -189,12 +197,12 @@ def test(lmbda):
         if args.mots:
             hyp_tracks =utils.mots_helper.make_disjoint(all_tracks, "score")
             utils.file_helper.export_tracking_result_in_kitti_format(vid[0], hyp_tracks, True, "",
-                                                           out_folder=outf + "/test/epoch" + str(args.epochs) + "/Instances_txt",
+                                                           out_folder=outf + "/test/"+category+"/Instances_txt",
                                                            start_time_at_1=start_at_1)
         else:
             utils.file_helper.export_tracking_result_in_kitti_format(vid[0], all_tracks, False, "",out_folder=outf + "/test/epoch" + str(args.epochs) + "/Instances_txt",start_time_at_1=start_at_1)
-            interpolate.save_interpolated_tracks(outf + "/test/epoch" + str(args.epochs) + "/Instances_txt/",
-                                                 outf + "/test/epoch" + str(args.epochs) + "_interp/Instances_txt/",vid[0]+".txt")
+            interpolate.save_interpolated_tracks(outf + "/test/Instances_txt/",
+                                                 outf + "/test/interp/Instances_txt/",vid[0]+".txt")
         print("done: ", vid, image_names)
 
         del assignments, detections, images
@@ -213,7 +221,6 @@ torch.manual_seed(args.seed)
 torch.cuda.manual_seed(args.seed)
 
 kwargs = {'num_workers': 0, 'pin_memory':False}
-print("Total number of epochs: ",args.epochs)
 
 # datasets
 if args.mots:
@@ -226,7 +233,7 @@ if args.mots:
         valData = dataset.MOTS_dataset(mots_val_dict, len(mots_val_dict), train=False)
         val_loader = torch.utils.data.DataLoader(valData, shuffle=True, **kwargs)  # my_collate
 
-else: #evaluate on mot
+else: # evaluate on mot
     import structmots_datasets.mot_dataset as mot_dataset
     if args.train:
         mot_train_dict=mot_dataset.get_mot_dict(args.data_dir + args.dataset, method=args.mot_method)

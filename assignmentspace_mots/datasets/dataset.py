@@ -49,7 +49,7 @@ def get_mots_dict(data_dir, vid="all"):
             if objects_per_frame!=[] and int(image_name[:-4]) in list(objects_per_frame.keys()):
                 labels=[]
                 for obj in objects_per_frame[int(image_name[:-4])]:
-                    # if obj.class_id in [1,2]:
+
                     labels.append({"bbox": torch.tensor([cocomask.toBbox(obj.mask)[0],
                                        cocomask.toBbox(obj.mask)[1],
                                        cocomask.toBbox(obj.mask)[0] + cocomask.toBbox(obj.mask)[2],
@@ -57,22 +57,13 @@ def get_mots_dict(data_dir, vid="all"):
                      # cocomask.toBbox(obj.mask),
                      "segmentation": cocomask.decode(obj.mask),
                      "category_id": 0 if obj.class_id == 1 else 1 if obj.class_id == 2 else 2, #car, ped, ignore
-                     "ignore":2, #ignore class category will be 2
-                                   # THIS IS HARDCODED IN:
-                                   # detectron2/modeling/proposal_generator/rpn.py line 286
-                                   # detectron2/modeling/roi_heads/roi_heads.py line 268
-                                   # (just search for m2 or ignore pos or m3)
+                     "ignore":2, # ignore class category will be 2
 
                      # converting to format: 0 for car, 1 for ped
                      "track_id": obj.track_id})
             else:
                 labels=[]
-                #     {"bbox": np.array([None,None,None,None],dtype=np.float64),
-                #      "bbox_mode": BoxMode.XYXY_ABS,
-                #      "segmentation": np.zeros(np_img.shape[:2], dtype=np.uint8),
-                #      "category_id": -1,
-                #      "track_id": -1}
-                # ]
+
             record["annotations"] = labels
             dataset_dicts.append(record)
             idx+=1
@@ -102,7 +93,6 @@ class MOTS_dataset(Dataset):
             if train==False:
                 n=len(dicts_for_current_video)
 
-            #objects_per_frame=io1.load_txt(os.path.join(data_dir,"instances_txt", dir1+".txt"))
             n_images=[]
             n_labels=[]
             n_img_names=[]
@@ -117,12 +107,8 @@ class MOTS_dataset(Dataset):
                     img_temp=torch.from_numpy(np_img).permute(2,0,1)
 
                     n_images.append(img_temp[[2,1,0],:,:])
-                    ##n_images.append(image_path)
                     n_img_names.append(image_name)
-                    #if int(image_name[:-4]) in list(objects_per_frame.keys()):
                     temp_anno=dicts_for_current_video[i]["annotations"].copy()
-                    # for ii in temp_anno:
-                    #     ii["category_id"]+=1
 
                     n_labels.append(temp_anno)
 
@@ -139,22 +125,11 @@ class MOTS_dataset(Dataset):
                 n_labels = []
                 n_img_names = []
 
-        # all images aren't of the same size.
-        # padding the smaller ones with zeros, such that the masks and bounding boxes aren't affected
-        #self.images=pad_and_stack_images(self.images)
-
     def __len__(self):
-
         return len(self.images)
 
     def __getitem__(self, idx):
         return ( self.images[idx],self.labels[idx], self.vid[idx], self.image_names[idx])
-        # self.images[idx]: list of n images
-        # self.labels[idx]: list of labels for each of n images
-        # each label is a SegmentedObject having label.mas
-        # k, label.track_id, label.class_id
-        # self.vid[idx]: the video tag
-        # self.image_names[idx]: the n image tags
 
 
 def pad_and_stack_images(images):

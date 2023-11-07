@@ -3,3 +3,6 @@ data/
 saved_models/
 detections/
 data
+.gitignore
+*/__pyache__/*
+*__pycache__/*

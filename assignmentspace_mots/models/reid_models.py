@@ -60,14 +60,11 @@ class REID_model(nn.Module):
                     instance_map=instance_map+((mask>0.5).cpu().numpy().astype(np.uint8))*ct
                     ct+=1
 
-            # instance_map = cluster.cluster_mots_wo_points(output, threshold=0.94,
-            #                                               min_pixel=160,
-            #                                               with_uv=True, n_sigma=2)
                 sample=self.dataset.get_data_for_structured_mots(img.transpose(1,2,0)[:,:,[2,1,0]], instance_map)
                 with torch.no_grad():
                     rd=self.get_reid(sample, device=seg_device1)
                 reid_samples.append([r for r in rd])
-            #(output[4] + (1 - output[4].detach())) * torch.tensor(sample["masks"]).cuda(seg_device1)
+
             else:
                 reid_samples.append([])
 
@@ -80,7 +77,7 @@ class REID_model(nn.Module):
             reids = np.array([])
         else:
             xyxys = sample['xyxys']
-            reids = self.reid_model(torch.tensor([points]), None, torch.tensor([xyxys]).cuda(device), infer=True)
+            reids = self.reid_model(points=torch.tensor([points]), labels=None, xyxys=torch.tensor([xyxys]).cuda(device), infer=True)
 
         return reids
 

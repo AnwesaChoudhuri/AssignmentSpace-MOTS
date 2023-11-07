@@ -1,0 +1,15 @@
+imageio
+matplotlib
+motmetrics
+munch==2.5.0
+munkres
+numpy
+opencv-python
+pycocotools
+sacred
+scikit-learn
+scipy
+sklearn
+networkx
+pypng
+scikit-image

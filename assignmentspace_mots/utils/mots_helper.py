@@ -24,7 +24,6 @@ def get_carry_forward(dets):
     if dets_carry_ids!=[]:
         carry_forward_pos=[dets.track_ids[0].index(m) for m in dets_carry_ids]
         for k in carry_forward_pos:
-            print("frame_diff:", dets.t1+1-dets.ts[0][k])
             if dets.t1+1-dets.ts[0][k]<=dets.keep_alive:
                 carry_forward.append({"boxes": dets.boxes[0][k],
                                       "reids": dets.reids[0][k],
@@ -33,8 +32,6 @@ def get_carry_forward(dets):
                                       "ts": dets.ts[0][k],
                                       "original_track_ids":dets.original_track_ids[0][k],
                                       "classes": dets.classes[0][k]})
-
-    print("carry:", [forward["original_track_ids"] for forward in carry_forward], ", carry from frame: ",  [forward["ts"] for forward in carry_forward])
 
     return carry_forward
 
@@ -56,7 +53,7 @@ def get_track_elements(detections, args):
             if args.mots:
                 tracks.append(TrackElement(t=t, box=box.cpu().numpy(), mask=cocomask.encode(
                                                np.asfortranarray((mask > 0.5).cpu().numpy().astype(np.uint8))),
-                                           # mask=cocomask.encode(np.asfortranarray((mask > 0.5).cpu().numpy())),
+
                                            class_=class_.item() + add_,
                                            track_id=track_id, score=score.item()))
             else:
@@ -73,16 +70,8 @@ def make_mask_from_box(boxes, image_shape, mots=True):
     masks=[]
     for t, boxes_t in enumerate(boxes):
         masks_t=[]
-        # if boxes_t != []:
-        #     m = torch.zeros(len(boxes_t), image_shape[0], image_shape[1])
-        #     b = torch.stack(boxes_t).int()
-        #     x = [list(range(b[i, 1], b[i, 3])) for i in range(len(b))]
-        #     y = [list(range(b[i, 0], b[i, 2])) for i in range(len(b))]
-        #     x_all= [[xi for xi in x[k] for yi in y[k]] for k in range(len(b))]
-        #     y_all= [[yi for xi in x[k] for yi in y[k]] for k in range(len(b))]
-        #     m[:,x_all, y_all]=1
 
-        for i, b in enumerate(boxes_t): #b: xyxy
+        for i, b in enumerate(boxes_t): # b: xyxy
             m=torch.zeros(image_shape)
             m[int(b[1]):int(b[3]), int(b[0]):int(b[2])]=1
             masks_t.append(m)
@@ -104,7 +93,6 @@ def make_mask_from_box_discriminative(boxes, images, image_shape, mots=True):
     mask_model = MRCNN_FPN()
     mask_model.model.eval()
     for t, (boxes_t, img_path) in enumerate(zip(boxes, images)):
-        print("masks", t)
         image=cv2.imread(img_path[0])
         masks_t=mask_model.predict_masks(torch.stack(boxes_t), torch.tensor(image).permute(2,0,1).unsqueeze(0).float()/255)
         masks.append(masks_t)
@@ -204,9 +192,6 @@ def rearrange_gt(gt_seq, predictions_mots, det_class_ids=[2,0], gt_class_ids=[1,
                     j_pos=np.where(indexes[:,0]==j)
 
                     if mask_matrix[j][indexes[j_pos[0][0],1]]>0.01:
-
-                        #gt_seq[i][indexes[j_pos[0][0], 1]]["segmentation"]=predictions_mots["masks"][i][indexes[j_pos[0][0], 0]]
-                    #if gt_seq[i][indexes[j_pos[0][0], 1]]["segmentation"]
                         gt_seq[i][indexes[j_pos[0][0], 1]]["segmentation"] = predictions_mots["masks"][i][indexes[j_pos[0][0], 0]]
                         gt_seq_temp.append(gt_seq[i][indexes[j_pos[0][0],1]])
                         det_masks_temp.append(predictions_mots["masks"][i][indexes[j_pos[0][0], 0]])
@@ -215,11 +200,6 @@ def rearrange_gt(gt_seq, predictions_mots, det_class_ids=[2,0], gt_class_ids=[1,
                         det_classes_temp.append(predictions_mots["classes"][i][indexes[j_pos[0][0], 0]])
                         det_reids_temp.append(predictions_mots["reids"][i][indexes[j_pos[0][0], 0]])
 
-                # else:
-                #     gt_seq_temp.append(SegmentedObject([],[],-1))
-        # elif len(det_masks[i])>0:
-        #     for j in range(0, len(det_masks[i])):
-        #         gt_seq_temp.append(SegmentedObject([],[],-1))
 
         gt_seq[i]=gt_seq_temp
         predictions_mots["masks"][i]=det_masks_temp
@@ -257,8 +237,6 @@ def rearrange_gt_mot(gt_seq, predictions_mots):
 
                     if mask_matrix[j][indexes[j_pos[0][0],1]]>0.01:
 
-                        #gt_seq[i][indexes[j_pos[0][0], 1]]["segmentation"]=predictions_mots["masks"][i][indexes[j_pos[0][0], 0]]
-                    #if gt_seq[i][indexes[j_pos[0][0], 1]]["segmentation"]
                         gt_seq[i][indexes[j_pos[0][0], 1]]["segmentation"] = predictions_mots["masks"][i][indexes[j_pos[0][0], 0]]
                         gt_seq_temp.append(gt_seq[i][indexes[j_pos[0][0],1]])
                         det_masks_temp.append(predictions_mots["masks"][i][indexes[j_pos[0][0], 0]])
@@ -266,12 +244,6 @@ def rearrange_gt_mot(gt_seq, predictions_mots):
                         det_boxes_temp.append(predictions_mots["boxes"][i][indexes[j_pos[0][0], 0]])
                         det_classes_temp.append(predictions_mots["classes"][i][indexes[j_pos[0][0], 0]])
                         det_reids_temp.append(predictions_mots["reids"][i][indexes[j_pos[0][0], 0]])
-
-                # else:
-                #     gt_seq_temp.append(SegmentedObject([],[],-1))
-        # elif len(det_masks[i])>0:
-        #     for j in range(0, len(det_masks[i])):
-        #         gt_seq_temp.append(SegmentedObject([],[],-1))
 
         gt_seq[i]=gt_seq_temp
         predictions_mots["masks"][i]=det_masks_temp
@@ -352,15 +324,11 @@ def check_with_leaf(node,leaves, appthresh=0.95, leaf_dist=0):
           temp_n1_app2 = cf.find_cost_matrix_app([node["reid1"]], [lf_node["reid2"] for lf_node in leaves])
 
       min_app=min(temp_app.min().item(), min_app)
-      #print(node["name"], [l["name"] for l in leaves])
-      #print(temp_dist, temp_app)
-      #min_dist = min(temp_dist.min().item(), min_dist)
 
 
-      if  min_app in temp_app:#min_dist in temp_dist and
-          #pos_dist=torch.where(temp_dist==min_dist)[1].item()
+      if  min_app in temp_app:
+
           pos_app = torch.where(temp_app == min_app)[1].item()
-          #if pos_app==pos_dist:
 
           leaf_name=leaves[pos_app]["name"]
           node_id=pos_app
@@ -376,7 +344,6 @@ def check_with_leaf(node,leaves, appthresh=0.95, leaf_dist=0):
                   temp_n1_app1[0][pos_n1_app].item() <= min_app and temp_n1_app2[0][pos_n1_app].item() <= min_app):
               leaf_name = leaves[pos_n1_app]["name"]
               node_id = pos_n1_app
-            #print("Inside")
 
       return leaf_name,node_id
   else:
@@ -423,7 +390,6 @@ def assign_ids(data,G, y, leaf=False,K=15, second_order=True, train=False,keep_a
                         if leaf:
                             leaf_nodes.append({"name":str(t)+"_"+str(id), "box": data["boxes"][t][id], "reid": data["reids"][t][id]})
                             if str(t - 1) + "_" + str(assignment[pos, 0][0][0]) in [l["name"] for l in leaf_nodes]:
-                                # leaf_nodes.remove(track_ids_prev[assignment[pos,0]])
                                 leaf_nodes.remove({"name":str(t - 1) + "_" + str(assignment[pos, 0][0][0]),"box": data["boxes"][t-1][assignment[pos, 0][0][0]], "reid": data["reids"][t-1][assignment[pos, 0][0][0]]})
                         new_id = 0
 
@@ -441,7 +407,6 @@ def assign_ids(data,G, y, leaf=False,K=15, second_order=True, train=False,keep_a
                                 leaf_nodes.append({"name":str(t) + "_" + str(id), "box": data["boxes"][t][id], "reid": data["reids"][t][id]})
                                 if str(t - 2) + "_" + str(arg_extra) in [l_n["name"] for l_n in leaf_nodes]:
                                     leaf_nodes.remove({"name":str(t - 2) + "_" + str(arg_extra), "box": data["boxes"][t-2][arg_extra], "reid": data["reids"][t-2][arg_extra]})
-                                    # leaf_nodes.remove(track_ids_prev2[arg_extra]) #remove from leaf nodes because edge is drawn from it now
 
                                 new_id = 0
 
@@ -457,12 +422,10 @@ def assign_ids(data,G, y, leaf=False,K=15, second_order=True, train=False,keep_a
 
 
             for id in new_id_list:
-                # print(t, id)
 
                 new_name = -1
 
                 if leaf and leaf_nodes_prev!=[]:
-                    #print(t)
 
                     for lf in leaf_nodes_prev:
                         lf["reid1"]=torch.zeros_like(lf["reid"])+5
@@ -570,7 +533,6 @@ def assign_ids_new(data,G, y, leaf=False,K=15, second_order=True, train=False,ke
                                 leaf_nodes.append({"name":str(t) + "_" + str(id), "box": data["boxes"][t][id], "reid": data["reids"][t][id]})
                                 if str(t - 2) + "_" + str(arg_extra) in [l_n["name"] for l_n in leaf_nodes]:
                                     leaf_nodes.remove({"name":str(t - 2) + "_" + str(arg_extra), "box": data["boxes"][t-2][arg_extra], "reid": data["reids"][t-2][arg_extra]})
-                                    # leaf_nodes.remove(track_ids_prev2[arg_extra]) #remove from leaf nodes because edge is drawn from it now
 
                                 new_id = 0
 
@@ -580,10 +542,8 @@ def assign_ids_new(data,G, y, leaf=False,K=15, second_order=True, train=False,ke
 
 
             for id in new_id_list:
-                # print(t, id)
 
                 new_name = -1
-
 
                 if new_name == -1:
                     new_name = int(track_counter)
@@ -597,17 +557,13 @@ def assign_ids_new(data,G, y, leaf=False,K=15, second_order=True, train=False,ke
 
     reids = [torch.stack([tr["reids"] for tr in tracks]) for tracks in tracklets]
     boxes = [torch.stack([tr["box"] for tr in tracks]) for tracks in tracklets]
-    #avg_reids = torch.stack([torch.sum(rd, dim=0) for rd in reids])
     avg_reids_begin=torch.stack([torch.mean(rd[:5], dim=0) for rd in reids])
     avg_reids_end = torch.stack([torch.mean(rd[-5:], dim=0) for rd in reids])
     ts = [[tr["t"] for tr in tracks] for tracks in tracklets]
     track_ids_all = [[tr["track_id"] for tr in tracks] for tracks in tracklets]
 
-    #dist_matrix = torch.cdist(avg_reids.unsqueeze(0),avg_reids.unsqueeze(1)).squeeze(2)# np.zeros((len(tracklets), len(tracklets)))
     reid_matrix = 1-torch.mm(avg_reids_end, avg_reids_begin.permute(1, 0))
 
-    #dist_matrix = torch.cdist(avg_reids_end.unsqueeze(0),avg_reids_begin.unsqueeze(1)).squeeze(2)
-    #cost_matrix = munkres.make_cost_matrix(dist_matrix)
     for i in range(len(reid_matrix)):
         #these are the beginnings
 
@@ -615,7 +571,7 @@ def assign_ids_new(data,G, y, leaf=False,K=15, second_order=True, train=False,ke
         reid_matrix[i,np.where(ts[i][0]<=np.array([t[-1] for t in ts]))]=100000 # preventing these values
         reid_matrix[i, np.where(ts[i][0] > (np.array([t[-1] for t in ts])+keep_alive))] = 100000  # preventing these values
 
-    #cost_matrix
+    # cost_matrix
     indexes_temp = opt.linear_sum_assignment(reid_matrix.cpu())
     indexes=[]
     for pairs in np.array(indexes_temp).transpose():
@@ -623,7 +579,7 @@ def assign_ids_new(data,G, y, leaf=False,K=15, second_order=True, train=False,ke
             if not mots:
                 b1 = boxes[pairs[1]][-1]
                 b2 = boxes[pairs[0]][0]
-                condition1=abs(b1[2]/b1[3] -b2[2]/b2[3]) <0.2 #aspect_ratio
+                condition1=abs(b1[2]/b1[3] -b2[2]/b2[3]) <0.2 # aspect_ratio
 
                 box_diff=b2-b1
                 tdiff = ts[pairs[0]][0] - ts[pairs[1]][-1]
@@ -633,10 +589,8 @@ def assign_ids_new(data,G, y, leaf=False,K=15, second_order=True, train=False,ke
                 condition =True
             if condition:
                 indexes.append(pairs)
-                print(track_ids_all[pairs[1]][0],ts[pairs[1]][-1], track_ids_all[pairs[0]][0],ts[pairs[0]][0], reid_matrix[pairs[0], pairs[1]])
 
     groups=get_groups(np.array(indexes))
-    print(groups)
     all_tracks_new=all_tracks.copy()
     for g in groups:
         dominant_track=tracklets[g[0]][0]["track_id"]
@@ -667,7 +621,7 @@ def get_tracklets(all_tracks, reids, boxes):
     return tracklets
 
 def get_y_temp_gt(labels_1, labels_2, assignments, device=0):
-    #find the gt assignment matrix
+    # find the gt assignment matrix
 
     lb1=np.array([i["track_id"].tolist()[0] for i in labels_1]).reshape(-1,1)
     lb2 = np.array([i["track_id"].tolist()[0] for i in labels_2]).reshape(1,-1)
@@ -706,13 +660,6 @@ def hung_2nd_order(assignment_matrix_2nd_order, cost_matrix_2nd_order):
     for id in range(len(idx)):
         assignment_matrix_2nd_order[idx[id],keep]=assignment_temp[id]
 
-
-    # for pos in range(len(idx)):
-    #     cm_pair=idx[pos], keep[pos]
-    #     hung_pair=indexes[pos]
-    #     assignment_matrix_2nd_order[cm_pair[0]+hung_pair[0],cm_pair[1]+hung_pair[1]]=1
-
-
     aux_cost=(1-assignment_matrix_2nd_order.sum(0)).sum()*100
 
     return assignment_matrix_2nd_order, aux_cost
@@ -739,7 +686,6 @@ def find_gt_cost_with_gt_detections(detections_gt, lmbda, size):
         L_grad_lmbda = L_grad_lmbda + torch.sum(torch.stack([cost_grad_lmbda_matrix[j[0],j[1]] for j in assignment[y_GT[i]]]), axis=0)
     return L, L_grad_lmbda, y_GT
 
-
 def get_optical_flow(args, seq, names):
 
     if args.mots:
@@ -747,7 +693,7 @@ def get_optical_flow(args, seq, names):
     else:
         dirflow1 =  "/"+args.optical_flow_method+"/flow_skip0/"
 
-    #############load optical_flow
+    ############# load optical_flow
 
     optical_flow_skip0 = []
 
@@ -777,8 +723,6 @@ def get_optical_flow(args, seq, names):
 
     return optical_flow_skip0, optical_flow_skip1
 
-
-
 def get_optical_flow_locations(args, seq, names):
 
     if args.mots:
@@ -786,7 +730,7 @@ def get_optical_flow_locations(args, seq, names):
     else:
         dirflow1 =  "/"+args.optical_flow_method+"/flow_skip0/"
 
-    #############load optical_flow
+    ############# load optical_flow
 
     optical_flow_skip0 = []
 

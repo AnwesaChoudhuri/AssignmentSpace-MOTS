@@ -11,7 +11,7 @@ args = dict(
     cuda=True,
     data_dir="data/KITTI_MOTS/",
     dataset="val", #train, test, or val
-    use_optical_flow=True,
+    use_optical_flow=False,
     optical_flow_path="data/KITTI_MOTS/val/RAFT_optical_flow/",
     vid=1, # will read from 2nd argument
 
@@ -20,8 +20,8 @@ args = dict(
     lr_theta=0.00001, #learning rate of theta
     lr_lambda=0.02, #learning rate of lambda
 
-    outf='output/KITTI_MOTS/val/tracking/trackrcnn_person',
-    det_dir="output/KITTI_MOTS/val/detections/trackrcnn",
+    outf='outputs/KITTI_MOTS/val/',
+    det_dir="detections/trackrcnn_detectron2_x152/KITTI_MOTS/val/",
 
 
     second_order=True,
@@ -55,7 +55,7 @@ args = dict(
     seg_model_path='PointTrack/pointTrack_weights/best_seed_model.pthCar', # Doesn't matter
     
     
-    reid_model_path="PointTrack/person_finetune_tracking/checkpoint.pth",
+    reid_model_path="saved_models/PointTrack/person_finetune_tracking/checkpoint.pth",
                    #'PointTrack/person_finetune_tracking/checkpoint.pth'
     track_model_path="output/KITTI_MOTS/train/tracking/detectron2_x152_person/losses_tracklambda/model_stored/",
 

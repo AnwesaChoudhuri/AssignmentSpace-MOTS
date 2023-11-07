@@ -131,10 +131,7 @@ class AssignmentSpace():
                 if self.args.second_order and i > 0:
                     cost_matrix_2nd_order = cost_matrix_2nd_order_list[i-1]
                     cost_matrix_iou_2nd_order = cost_matrix_iou_2nd_order_list[i - 1]
-            #print("cm1: ", time.time() - time1)
-            t2 = time.time()
 
-                    #print("cm2: ", time.time() - t2)
             t3 = time.time()
             k = min(self.args.K,math.factorial(max(cost_matrix.shape[0], cost_matrix.shape[1])))
             assignment = []
@@ -159,9 +156,6 @@ class AssignmentSpace():
                         assignment_hungarian[a_len]=np.stack(a2)
                     else:
                         assignment_hungarian[a_len] =np.empty((0,2), dtype=np.int64)
-                print("hung time:", time.time()-t3)
-                #phi_1=phi_1[:self.args.K]
-                #assignment_hungarian=assignment_hungarian[:self.args.K]
 
 
                 assignment=[]
@@ -179,12 +173,7 @@ class AssignmentSpace():
 
                     y_GT.append(y_temp_gt)
 
-                    L_GT = L_GT +(cost_matrix*assignment[y_GT[i]]).sum() #phi_1[y_GT[i]]
-                    # if cost_matrix.shape[0] != cost_matrix.shape[1]:
-                    #     auxiliary_cost = (max(cost_matrix.shape) - min(cost_matrix.shape)) * max_cost * (
-                    #         (self.lmbda[:int((self.lmbda.shape[0]) / 2)]).sum())
-                    #
-                    #     L_GT = L_GT + auxiliary_cost
+                    L_GT = L_GT +(cost_matrix*assignment[y_GT[i]]).sum() 
 
                     if i>0 and self.args.second_order and len(assignment_all[i-1][y_GT[i-1]]) and len(assignment[y_GT[i]]):
 
@@ -194,10 +183,9 @@ class AssignmentSpace():
                         a2 = assignment[y_GT[i]]
                         auxiliary_cost = 0
                         if (a1.shape[0] > a1.shape[1] and a2.shape[0] < a2.shape[1]):
-                            #counts = max(a1.shape[0], a2.shape[1]) - a2.shape[0]
+
                             assignment_matrix_2nd_order, auxiliary_cost = mots_helper.hung_2nd_order(assignment_matrix_2nd_order,
                                                                                          cost_matrix_2nd_order.detach())
-                            #auxiliary_cost = counts * max_cost * ((self.lmbda[int((self.lmbda.shape[0]) / 2):]).sum())
 
                         L_GT = L_GT + (cost_matrix_2nd_order * assignment_matrix_2nd_order).sum() + auxiliary_cost
 
@@ -207,20 +195,11 @@ class AssignmentSpace():
 
             else:# cost_matrix.shape[0]>0 and cost_matrix.shape[1]>0:
                 phi_1, assignment = k_best_costs_nlp(k, cost_matrix.copy())
-            #print("hung: ", time.time() - t3)
-            #print("first half: ", time.time() - time1)
             time2 = time.time()
             for i_phi, _ in enumerate(phi_1):
                 val_phi=(assignment[i_phi]*cost_matrix).sum()
-                # if cost_matrix.shape[0]!=cost_matrix.shape[1]:
-                #     auxiliary_cost = (max(cost_matrix.shape) - min(cost_matrix.shape)) * max_cost * (
-                #         (self.lmbda[:int((self.lmbda.shape[0]) / 2)]).sum())
-                #     val_phi=val_phi+auxiliary_cost
-                #     phi_1[i_phi]=phi_1[i_phi]+auxiliary_cost.item()
 
-                #a_p = np.array(np.where(np.round(assignment[i_phi]))).transpose()
                 G.add_node(str(i) + "_" + str(i_phi))
-                #print(val_phi)
                 G.nodes[str(i) + "_" + str(i_phi)]["node_cost"] = val_phi.type(torch.float64)
                 G.nodes[str(i) + "_" + str(i_phi)]["cost_matrix"] = cost_matrix
                 G.nodes[str(i) + "_" + str(i_phi)]["cost_matrix_iou"] = np.array(cost_matrix_iou.detach().cpu())
@@ -388,6 +367,7 @@ class AssignmentSpace():
 
 
 class AlphaSpace():
+    # for online mots
     def __init__(self, assignments, alpha_names, alpha_costs):
         super().__init__()
 
